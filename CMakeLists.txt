@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(mission_flier)
+project(bpl_mission_flier)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -28,16 +28,18 @@ find_package(MAVSDK REQUIRED)
 
 include_directories(include)
 
+add_executable(bpl_mission_flier src/mission_flier_node.cpp src/mission_flier.cpp)
+ament_target_dependencies(bpl_mission_flier rclcpp std_srvs Eigen3 std_msgs)
+target_link_libraries(bpl_mission_flier
+    MAVSDK::mavsdk
+)
+install(TARGETS bpl_mission_flier DESTINATION lib/${PROJECT_NAME})
+
 # Install header files
-install(DIRECTORY include/${PROJECT_NAME}/ DESTINATION include/${PROJECT_NAME})
+#install(DIRECTORY include/${PROJECT_NAME}/ DESTINATION include/${PROJECT_NAME})
 
 install(
   DIRECTORY launch
-  DESTINATION share/${PROJECT_NAME}
-)
-
-install(
-  DIRECTORY config
   DESTINATION share/${PROJECT_NAME}
 )
 
